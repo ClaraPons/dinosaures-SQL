@@ -5,19 +5,33 @@ const {verifyDynosaur, verifyNotDynosaur} = require('../middlewares/Dynosaur')
 
 
 app.get('/', async (req, res) => {
+
     try {
-        const dynosaurs = await Dynosaur.findAll()
-        res.json(dynosaurs)
+        // console.log(req.query.order)
+        if(req.query.order === "asc"){
+            const dynosaursAsc = await Dynosaur.findAll({
+                order: [['appearanceDate', 'ASC']]
+            })
+            res.json(dynosaursAsc)
+        }else if(req.query.order === "desc"){
+            const dynosaursDesc = await Dynosaur.findAll({
+                order: [['appearanceDate', 'DESC']]
+            })
+            res.json(dynosaursDesc)
+        }else{
+            const dynosaurs = await Dynosaur.findAll()
+            res.json(dynosaurs)
+        }
+
     }catch(e){
         console.log(e)
         res.status(500).json('Internal server error')
-    }
+    }   
 })
 
 app.get('/:id', verifyDynosaur, async (req, res) => {
 
     const { id } = req.params
-    console.log(req.query)
     try{
         res.json(req.dynosaur)
     }catch(e){
