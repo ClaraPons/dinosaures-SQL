@@ -29,9 +29,8 @@ app.get('/', async (req, res) => {
     }   
 })
 
-app.get('/:id', verifyDynosaur, async (req, res) => {
+app.get('/:id', verifyDynosaur, (req, res) => {
 
-    const { id } = req.params
     try{
         res.json(req.dynosaur)
     }catch(e){
@@ -56,14 +55,14 @@ app.put('/:id', verifyDynosaur, verifyNotDynosaur, async (req, res) => {
     try{
         const dynosaur = await Dynosaur.update(req.body, {
             where:{
-                id : req.id
+                id : req.params.id
             }
         }
     ) 
 
         const dynosaurFind = await Dynosaur.findOne({
             where:{
-                id:req.id
+                id:req.params.id
             }
         })
 
@@ -77,12 +76,10 @@ app.put('/:id', verifyDynosaur, verifyNotDynosaur, async (req, res) => {
 
 app.delete('/:id', verifyDynosaur, async (req, res) => {
 
-    const { id } = req.params
-
     try {
         const dynosaur = await Dynosaur.destroy({
             where: {
-                id : req.id
+                id : req.params.id
             }
         })
         res.status(204)

@@ -10,7 +10,6 @@ const verifyDynosaur = async (req, res, next) => {
         }
     })
     if(dynosaur){
-        req.id = id
         req.dynosaur = dynosaur
         next()
     }else{
