@@ -82,7 +82,7 @@ app.delete('/:id', verifyDynosaur, async (req, res) => {
                 id : req.params.id
             }
         })
-        res.status(204)
+        res.status(204).json('')
     }catch(e){
         console.log(e)
         res.status(500).json('Internal server error')
